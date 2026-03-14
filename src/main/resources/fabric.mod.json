@@ -17,14 +17,22 @@
   "entrypoints": {
     "main": [
       "com.example.TemplateMod"
+    ],
+    "client": [
+      "com.example.client.TemplateModClient"
     ]
   },
   "mixins": [
-    "template.mixins.json"
+    "template.mixins.json",
+    {
+      "config": "templateClient.mixins.json",
+      "environment": "client"
+    }
   ],
   "accessWidener": "template.accesswidener",
   "depends": {
-    "fabricloader": ">=0.17",
-    "minecraft": "${minecraft}"
+    "fabricloader": "${fabricLoader}",
+    "minecraft": "${minecraft}",
+    "${fabricApiKey}": "*"
   }
 }

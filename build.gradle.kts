@@ -94,15 +94,15 @@ tasks {
             "name"         to project.property("mod.name"),
             "version"      to project.property("mod.version"),
             "minecraft"    to project.property("mod.mc_dep"),
+            "fabricLoader" to project.property("deps.fabric_loader"),
             "fabricAPI"    to project.property("deps.fabric_api"),
             "fabricApiKey" to fabricApiKey
         )
         filesMatching("fabric.mod.json") { expand(props) }
 
         val mixinJava   = "JAVA_${requiredJava.majorVersion}"
-        val refmapName  = "${project.property("mod.id")}-refmap.json"
         filesMatching("*.mixins.json") {
-            expand(mapOf("java" to mixinJava, "refmap" to refmapName))
+            expand(mapOf("java" to mixinJava))
         }
     }
 
