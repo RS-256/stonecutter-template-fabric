@@ -1,17 +1,21 @@
 package com.example;
 
+import com.example.command.TemplateModCommand;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TemplateMod implements ModInitializer {
+    public static final String MOD_ID = "template";
+    public static final String VERSION = /*$ mod_version*/ "0.0.0";
+    public static final String MINECRAFT = /*$ minecraft*/ "1.21.11";
+
     // This logger is used to write text to the console and the log file.
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
-    public static final Logger LOGGER = LoggerFactory.getLogger("template");
-    public static final String VERSION = /*$ mod_version*/ "0.1.0";
-    public static final String MINECRAFT = /*$ minecraft*/ "1.21.11";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
     public void onInitialize() {
@@ -26,15 +30,22 @@ public class TemplateMod implements ModInitializer {
 
         //? if fapi: <0.100
         /*LOGGER.info("Fabric API is old on this version");*/
+
+        registerCommands();
     }
 
     /**
-     * Adapts to the {@link Identifier} changes introduced in 1.21.
+     * Adapts to the ResourceLocation -> Identifier changes introduced in 1.21.
      */
     public static Identifier id(String namespace, String path) {
         //? if <1.21 {
         /*return new ResourceLocation(namespace, path);
-        *///?} else
+        *///?} else {
         return Identifier.fromNamespaceAndPath(namespace, path);
+        //?}
+    }
+
+    public void registerCommands() {
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> TemplateModCommand.register(dispatcher, registryAccess));
     }
 }

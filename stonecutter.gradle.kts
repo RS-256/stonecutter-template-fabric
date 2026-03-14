@@ -1,29 +1,80 @@
 plugins {
     id("dev.kikugie.stonecutter")
-    id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT" apply false
-    // id("me.modmuss50.mod-publish-plugin") version "1.0.+" apply false
+    id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT" apply false
+    // id("me.modmuss50.mod-publish-plugin") version "1.1.0" apply false  // uncomment to enable publishing
 }
 
 stonecutter active "1.21.11"
 
+// ---------------------------------------------------------------
+// Stonecutter parameters - available in every versioned subproject
+// See https://stonecutter.kikugie.dev/wiki/config/params
+// ---------------------------------------------------------------
+stonecutter parameters {
+    swaps["mod_version"] = "\"${property("mod.version")}\";"
+    swaps["minecraft"]   = "\"${node.metadata.version}\";"
+    constants["release"] = property("mod.id") != "template"
+    dependencies["fapi"] = node.project.property("deps.fabric_api") as String
+
+    // As Mojang has carried out a simple refactoring, this can be resolved simply by replacing the text
+    // replacements {
+    //     string(current.parsed >= "1.21.11") {
+    //         replace("ResourceLocation", "Identifier")
+    //     }
+    // }
+}
+
+// ---------------------------------------------------------------
+// Convenience run tasks — delegates to the currently active version
+// ---------------------------------------------------------------
+tasks.register("runClientCurrentVersion") {
+    group       = "run"
+    description = "Runs the client for the active stonecutter version."
+    dependsOn(project(":${sc.current?.version}").tasks.named("runClient"))
+}
+
+tasks.register("runServerCurrentVersion") {
+    group       = "run"
+    description = "Runs the server for the active stonecutter version."
+    dependsOn(project(":${sc.current?.version}").tasks.named("runServer"))
+}
+
+// ---------------------------------------------------------------
+// Release version list — versions that actually get published.
+// Each entry maps to one Modrinth upload (or CurseForge).
+// ---------------------------------------------------------------
+val releaseVersions = listOf(
+    "1.21.11"
+)
+
+tasks.register("buildReleaseRemapped") {
+    group       = "build"
+    description = "Build remapped jars only for the release versions."
+    dependsOn(releaseVersions.map { v -> ":$v:buildAndCollectRemapped" })
+}
+
+// ---------------------------------------------------------------
+// Publisher - uncomment the blocks below after enabling the
+// mod-publish-plugin above and setting publish.modrinth /
+// publish.curseforge in gradle.properties.
+// ---------------------------------------------------------------
 /*
-// Make newer versions be published last
 stonecutter tasks {
     order("publishModrinth")
     order("publishCurseforge")
 }
- */
 
-// See https://stonecutter.kikugie.dev/wiki/config/params
-stonecutter parameters {
-    swaps["mod_version"] = "\"${property("mod.version")}\";"
-    swaps["minecraft"] = "\"${node.metadata.version}\";"
-    constants["release"] = property("mod.id") != "template"
-    dependencies["fapi"] = node.project.property("deps.fabric_api") as String
+tasks.register("publishAllToModrinthRelease") {
+    group       = "publishing"
+    description = "Publish all release versions to Modrinth in order."
+    dependsOn(releaseVersions.map { ":$it:publishModrinth" })
+}
 
-    replacements {
-        string(current.parsed >= "1.21.11") {
-            replace("ResourceLocation", "Identifier")
+gradle.projectsEvaluated {
+    releaseVersions.zipWithNext().forEach { (prev, next) ->
+        project(":$next").tasks.named("publishModrinth") {
+            mustRunAfter(":$prev:publishModrinth")
         }
     }
 }
+*/
