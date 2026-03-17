@@ -4,8 +4,13 @@ import com.example.command.TemplateModCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.resources.Identifier;
+//? if <=1.18.2 {
+/*import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+*///?} else {
+import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//?}
 
 public class TemplateMod implements ModInitializer {
     public static final String MOD_ID = "template";
@@ -15,7 +20,11 @@ public class TemplateMod implements ModInitializer {
     // This logger is used to write text to the console and the log file.
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    //? if <=1.18.2 {
+    /*public static final Logger LOGGER = LogManager.getLogger();
+     *///?} else {
+    public static final Logger LOGGER = LogUtils.getLogger();
+    //?}
 
     @Override
     public void onInitialize() {
