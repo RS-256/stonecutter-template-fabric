@@ -29,7 +29,7 @@
       "environment": "client"
     }
   ],
-  "accessWidener": "template.accesswidener",
+  "accessWidener": "${accesswidener}",
   "depends": {
     "fabricloader": "${fabricLoader}",
     "minecraft": "${minecraft}",
