@@ -164,7 +164,7 @@ tasks {
 // ---------------------------------------------------------------
 /*
 publishMods {
-    file           = tasks.remapJar.flatMap { it.archiveFile }
+    file           = tasks.jar.flatMap { it.archiveFile }
     additionalFiles.from(tasks.remapSourcesJar.flatMap { it.archiveFile })
     displayName    = "${property("mod.name")} v${property("mod.version")} for mc${property("mod.mc_title")}"
     version        = "v${property("mod.version")} as String"
