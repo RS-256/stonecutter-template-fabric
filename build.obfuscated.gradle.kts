@@ -93,13 +93,13 @@ val fabricApiKey =
 tasks {
     processResources {
         val props = mapOf(
-            "id" to project.property("mod.id"),
-            "name" to project.property("mod.name"),
-            "version" to project.property("mod.version"),
-            "minecraft" to project.property("mod.mc_dep"),
-            "fabricLoader" to project.property("deps.fabric_loader"),
-            "fabricAPI" to project.property("deps.fabric_api"),
-            "fabricApiKey" to fabricApiKey,
+            "id"            to project.property("mod.id"),
+            "name"          to project.property("mod.name"),
+            "version"       to project.property("mod.version"),
+            "minecraft"     to project.property("mod.mc_dep"),
+            "fabricLoader"  to project.property("deps.fabric_loader"),
+            "fabricAPI"     to project.property("deps.fabric_api"),
+            "fabricApiKey"  to fabricApiKey,
             "accesswidener" to accesswidener
         )
         filesMatching("fabric.mod.json") { expand(props) }
