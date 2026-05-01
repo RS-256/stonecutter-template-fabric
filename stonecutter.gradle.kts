@@ -46,8 +46,10 @@ tasks.register("runServerCurrentVersion") {
 // ---------------------------------------------------------------
 val releaseVersions = listOf(
     "1.21.11",
-    "26.1"
+    "26.1.2"
 )
+
+extra["publish.changelogReleaseVersion"] = releaseVersions.last()
 
 tasks.register("buildReleaseRemapped") {
     group       = "build"
