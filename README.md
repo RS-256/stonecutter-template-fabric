@@ -23,3 +23,48 @@
 - [Fabric Discord server](https://discord.gg/v6v4pMv): for mod development help.
 - [Stonecutter Discord server](https://discord.kikugie.dev/): for Stonecutter and Gradle help.
 - [How To Ask Questions - the guide](http://www.catb.org/esr/faqs/smart-questions.html): also in [video form](https://www.youtube.com/results?search_query=How+To+Ask+Questions+The+Smart+Way).
+
+## Commonly used syntax
+### minecraft version specific code
+you can use `if` block in your source code (not in the build script) to apply or remove minecraft version specific code.
+When the stonecutter evaluate the codes, for example; reload the gradle, building, ofc runClient or something else, 
+if the current active version (defined at `stonecutter.gradle.kts#L15`) does not meet the conditions, that code is commented out in a comment block
+```java
+//some code...
+//? if >=1.21.3 {
+//version specific code...
+//?}
+// another some code...
+```
+ofc you can also use `else` and `else if` block, like this.
+```java
+public static MutableComponent literal(String string) {
+    //? if <=1.18.2 {
+    // only uncommented and can be evaluated if current version is under 1.18.2 (<=1.18.2)
+    /*return new TextComponent(string);
+     *///?} else {
+    return Component.literal(string);
+    //?}
+}
+```
+and you can nest the `if` block up to 10 times.
+```java
+//? if <=1.18.2 {
+/*public void registerCommands() {
+	CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> InfinoteCommand.register(dispatcher));
+}
+ *///?} else {
+public void registerCommands() {
+	CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+		TemplateCommand.register(dispatcher, registryAccess);
+		//? if >=1.20.3 {
+        // only uncommented and can be evaluated if current version is >=1.18.2 && 1.20.3
+
+        ExampleCommand.register(dispatcher);
+		//?}
+	});
+}
+//?}
+```
+if the version specific code is only one line you can omit the bracket, but I recommend not to omit bracket.
+
