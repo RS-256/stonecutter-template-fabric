@@ -13,7 +13,7 @@ build.fabric_api    = "*"
 
 publish.modrinth   = "XXXXXXXX"
 publish.curseforge = "XXXXXXXX"
-publish.github     = "RS-256/stonecutter-template-fabric"
+publish.github     = "RS-256/stonecutter-template-fabric"   #owner/repo
 
 # Per-version properties
 ["1.21.11"]
