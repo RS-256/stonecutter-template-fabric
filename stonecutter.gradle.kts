@@ -7,12 +7,12 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     id("dev.kikugie.stonecutter")
-    id("net.fabricmc.fabric-loom") version "1.16-SNAPSHOT" apply false
-    id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom") version "1.18-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom-remap") version "1.18-SNAPSHOT" apply false
     // id("me.modmuss50.mod-publish-plugin") version "1.1.0" apply false  // uncomment to enable publishing
 }
 
-stonecutter active "26.1.2"
+stonecutter active "26.2"
 
 // ---------------------------------------------------------------
 // Stonecutter parameters - available in every versioned subproject
@@ -53,7 +53,7 @@ tasks.register("runServerCurrentVersion") {
 // ---------------------------------------------------------------
 val releaseVersions = listOf(
     "1.21.11",
-    "26.1.2"
+    "26.2"
 )
 
 extra["publish.changelogReleaseVersion"] = releaseVersions.last()
