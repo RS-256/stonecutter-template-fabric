@@ -66,5 +66,5 @@ public void registerCommands() {
 }
 //?}
 ```
-if the version specific code is only one line you can omit the bracket, but I recommend not to omit bracket.
+if the version specific code is only one line and in the `if` block, not `else` or `else if`, you can omit the bracket, but I recommend not.
 
